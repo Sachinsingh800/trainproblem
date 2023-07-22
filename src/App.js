@@ -4,7 +4,7 @@ import axios from "axios"
 const CompanyForm = () => {
   const [formData, setFormData] = useState({
   });
-
+console.log(formData,"data")
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -19,6 +19,7 @@ const CompanyForm = () => {
   
     try {
       const response = await axios.post('http://20.244.56.144/train/register', { formData});
+      console.log(response,"response")
       alert("register successfull");
     } catch (error) {
       alert("register fail")
@@ -84,6 +85,16 @@ const CompanyForm = () => {
           id="clientSecret"
           name="clientSecret"
           value={formData.clientSecret}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="accessCode">accessCode:</label>
+        <input
+          type="text"
+          id="accessCode"
+          name="accessCode"
+          value={formData.accessCode}
           onChange={handleChange}
         />
       </div>
