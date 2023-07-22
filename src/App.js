@@ -1,57 +1,95 @@
-import logo from './logo.svg';
-import style from "./App.module.css";
-import React  ,{useState ,useEffect} from "react"
+import React, { useState } from 'react';
+import axios from "axios"
 
-function App() {
-  const [data, setData] = useState([]);
-  const [number, setNumber] = useState("");
-console.log(data)
+const CompanyForm = () => {
+  const [formData, setFormData] = useState({
+  });
 
-    function handleClick(number) {
-      if(!number){
-        alert("Please search by number")
-      }else{
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+
+  const handleSubmit= async (e) => {
+    e.preventDefault();
   
-     
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key": "43e138d2a8mshdd5783f8629f9afp105103jsnfac1b0bd9c7a",
-          "X-RapidAPI-Host": "indian-railway-irctc.p.rapidapi.com",
-        },
-      };
-  
-      fetch(
-        `https://indian-railway-irctc.p.rapidapi.com/getTrainId?trainno=${number}`,
-        options
-      )
-        .then((response) => response.json())
-        .then((response) =>   setData(response))
-        .catch((err) => console.error(err));
-      }
+    try {
+      const response = await axios.post('http://20.244.56.144/train/register', { formData});
+      alert("register successfull");
+    } catch (error) {
+      alert("register fail")
     }
-  
-  return (
-    <div className="App">
-   <div className={style.main}>
-            <h3>SEARCH BY TRAIN</h3>
-            <input
-              type="text"
-              value={number}
-              className={style.inputContainer}
-              placeholder="Train Number"
-              onChange={(e) => setNumber(e.target.value)}
-              required
-            />
-            <button
-              className={style.btnContainer}
-              onClick={() => handleClick(number)}
-            >
-              Check Status
-            </button>{" "}
-          </div>
-    </div>
-  );
-}
+  };
 
-export default App;
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="companyName">Company Name:</label>
+        <input
+          type="text"
+          id="companyName"
+          name="companyName"
+          value={formData.companyName}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="clientID">Client ID:</label>
+        <input
+          type="text"
+          id="clientID"
+          name="clientID"
+          value={formData.clientID}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="ownerName">Owner Name:</label>
+        <input
+          type="text"
+          id="ownerName"
+          name="ownerName"
+          value={formData.ownerName}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="rollNo">Roll No:</label>
+        <input
+          type="text"
+          id="rollNo"
+          name="rollNo"
+          value={formData.rollNo}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="ownerEmail">Owner Email:</label>
+        <input
+          type="email"
+          id="ownerEmail"
+          name="ownerEmail"
+          value={formData.ownerEmail}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="clientSecret">Client Secret:</label>
+        <input
+          type="text"
+          id="clientSecret"
+          name="clientSecret"
+          value={formData.clientSecret}
+          onChange={handleChange}
+        />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default CompanyForm;
